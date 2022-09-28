@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "apps/users-service-demo"
+    prefix = "apps/users-service-demo"
   }
 }
 

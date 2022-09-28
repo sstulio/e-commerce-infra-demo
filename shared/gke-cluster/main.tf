@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "shared/gke-cluster"
+    prefix = "shared/gke-cluster"
   }
 }
 
@@ -36,9 +36,9 @@ module "gcp-network" {
 
 module "gke" {
   source                     = "terraform-google-modules/kubernetes-engine/google"
-  project_id                 = "${var.project_id}"
+  project_id                 = var.project_id
   name                       = "${var.project_id}-gke"
-  region                     = "${var.region}"
+  region                     = var.region
   zones                      = var.zones
   network                    = module.gcp-network.network_name
   subnetwork                 = module.gcp-network.subnets_names[0]
@@ -52,23 +52,23 @@ module "gke" {
 
   node_pools = [
     {
-      name                      = "${var.project_id}-node-pool"
-      machine_type              = "e2-medium"
-      node_locations            =  "${var.zones[0]}"
-      min_count                 = 1
-      max_count                 = 1
-      local_ssd_count           = 0
-      spot                      = false
-      disk_size_gb              = 50
-      disk_type                 = "pd-standard"
-      image_type                = "COS_CONTAINERD"
-      enable_gcfs               = false
-      enable_gvnic              = false
-      auto_repair               = true
-      auto_upgrade              = true
-      service_account           = local.service_account
-      preemptible               = true
-      initial_node_count        = 1
+      name               = "${var.project_id}-node-pool"
+      machine_type       = "e2-medium"
+      node_locations     = "${var.zones[0]}"
+      min_count          = 1
+      max_count          = 1
+      local_ssd_count    = 0
+      spot               = false
+      disk_size_gb       = 50
+      disk_type          = "pd-standard"
+      image_type         = "COS_CONTAINERD"
+      enable_gcfs        = false
+      enable_gvnic       = false
+      auto_repair        = true
+      auto_upgrade       = true
+      service_account    = local.service_account
+      preemptible        = true
+      initial_node_count = 1
     },
   ]
 

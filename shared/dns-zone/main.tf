@@ -1,14 +1,14 @@
 terraform {
   backend "gcs" {
     bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "shared/dns-zone"
+    prefix = "shared/dns-zone"
   }
 }
 
 data "terraform_remote_state" "nginx_ingress" {
   backend = "gcs"
   config = {
-    bucket = "${var.project_id}-terraform-state"
+    bucket = "zcelero-tech-talk-terraform-state"
     prefix = "shared/nginx-ingress"
   }
 }
@@ -63,7 +63,7 @@ resource "google_dns_record_set" "users_service_demo" {
 }
 
 resource "google_dns_record_set" "root_domain" {
-  name = "${google_dns_managed_zone.dns_zone.dns_name}"
+  name = google_dns_managed_zone.dns_zone.dns_name
   type = "A"
   ttl  = 300
 

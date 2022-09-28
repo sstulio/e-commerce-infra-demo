@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "apps/order-service-demo"
+    prefix = "apps/order-service-demo"
   }
 }
 
@@ -14,7 +14,7 @@ resource "kubernetes_namespace" "order_service_demo" {
 data "terraform_remote_state" "database" {
   backend = "gcs"
   config = {
-    bucket = "${var.project_id}-terraform-state"
+    bucket = "zcelero-tech-talk-terraform-state"
     prefix = "shared/postgres-sql"
   }
 }

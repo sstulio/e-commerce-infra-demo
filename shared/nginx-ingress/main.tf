@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "shared/nginx-ingress"
+    prefix = "shared/nginx-ingress"
   }
 }
 
@@ -17,10 +17,10 @@ resource "google_compute_address" "ingress_ip_address" {
 }
 
 module "nginx-controller" {
-  source  = "terraform-iaac/nginx-controller/helm"
+  source = "terraform-iaac/nginx-controller/helm"
 
   ip_address = google_compute_address.ingress_ip_address.address
-  namespace = "nginx-ingress"
+  namespace  = "nginx-ingress"
 
   depends_on = [
     kubernetes_namespace.nginx_ingress
