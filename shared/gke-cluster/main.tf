@@ -1,10 +1,12 @@
-# google_client_config and kubernetes provider must be explicitly specified like the following.
-data "google_client_config" "default" {}
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix  = "shared/gke-cluster"
+  }
+}
 
-provider "kubernetes" {
-  host                   = "https://${module.gke.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+locals {
+  service_account = "terraform@zcelero-tech-talk.iam.gserviceaccount.com"
 }
 
 module "gcp-network" {
@@ -64,8 +66,8 @@ module "gke" {
       enable_gvnic              = false
       auto_repair               = true
       auto_upgrade              = true
-      service_account           = "terraform@zcelero-tech-talk.iam.gserviceaccount.com"
-      preemptible               = false
+      service_account           = local.service_account
+      preemptible               = true
       initial_node_count        = 1
     },
   ]

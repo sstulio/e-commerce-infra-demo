@@ -1,14 +1,12 @@
 terraform {
-  
-  backend "gcs" {
-    bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "shared/postgres-sql"
-  }
-
   required_providers {
     google = {
       source  = "hashicorp/google"
       version = "4.37.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "1.13.0"
     }
   }
 
@@ -16,8 +14,18 @@ terraform {
 }
 
 provider "google" {
-  project     = var.project_id
-  region      = var.region
-  zone        = var.zones[0]
+  project = "zcelero-tech-talk"
+  region  = "europe-west1"
+  zone    = "europe-west1-d"
 }
 
+# Kubernetes Provider
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}

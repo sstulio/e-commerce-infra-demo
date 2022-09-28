@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix = "shared/argocd"
+  }
+}
+
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"

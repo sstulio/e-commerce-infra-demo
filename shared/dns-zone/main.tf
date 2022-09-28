@@ -1,3 +1,19 @@
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix  = "shared/dns-zone"
+  }
+}
+
+data "terraform_remote_state" "nginx_ingress" {
+  backend = "gcs"
+  config = {
+    bucket = "${var.project_id}-terraform-state"
+    prefix = "shared/nginx-ingress"
+  }
+}
+
+
 resource "google_dns_managed_zone" "dns_zone" {
   name        = "tuliodesouza-dns-zone"
   dns_name    = "tuliodesouza.com."

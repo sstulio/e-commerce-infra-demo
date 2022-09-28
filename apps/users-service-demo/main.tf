@@ -1,4 +1,19 @@
-# Deploy resources on GKE
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix  = "apps/users-service-demo"
+  }
+}
+
+data "terraform_remote_state" "database" {
+  backend = "gcs"
+  config = {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix = "shared/postgres-sql"
+  }
+}
+
+
 resource "kubernetes_namespace" "users_service_demo" {
   metadata {
     name = "users-service-demo"

@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix  = "shared/nginx-ingress"
+  }
+}
+
 # Deploy resources on GKE
 resource "kubernetes_namespace" "nginx_ingress" {
   metadata {

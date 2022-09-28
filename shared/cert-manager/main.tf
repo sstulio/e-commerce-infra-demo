@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix = "shared/cert-manager"
+  }
+}
+
 module "cert_manager" {
   source         = "terraform-iaac/cert-manager/kubernetes"
   namespace_name = "cert-manager"

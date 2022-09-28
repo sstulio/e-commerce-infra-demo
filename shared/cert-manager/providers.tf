@@ -1,10 +1,4 @@
 terraform {
-
-  backend "gcs" {
-    bucket = "zcelero-tech-talk-terraform-state"
-    prefix = "shared/cert-manager"
-  }
-
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -20,32 +14,18 @@ terraform {
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zones[0]
+  project = "zcelero-tech-talk"
+  region  = "europe-west1"
+  zone    = "europe-west1-d"
 }
-
-data "terraform_remote_state" "gke" {
-  backend = "gcs"
-  config = {
-    bucket = "${var.project_id}-terraform-state"
-    prefix = "shared/gke-cluster"
-  }
-}
-
-data "google_client_config" "default" {}
 
 # Kubernetes Provider
 provider "kubernetes" {
-  host                   = "https://${data.terraform_remote_state.gke.outputs.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.gke.outputs.cluster_ca_certificate)
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
   kubernetes {
-    host                   = "https://${data.terraform_remote_state.gke.outputs.endpoint}"
-    token                  = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.gke.outputs.cluster_ca_certificate)
+    config_path = "~/.kube/config"
   }
 }

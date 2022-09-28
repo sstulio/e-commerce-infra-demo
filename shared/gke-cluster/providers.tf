@@ -1,10 +1,4 @@
 terraform {
-  
-  backend "gcs" {
-    bucket = "zcelero-tech-talk-terraform-state"
-    prefix  = "shared/gke-cluster"
-  }
-
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -16,8 +10,8 @@ terraform {
 }
 
 provider "google" {
-  project     = var.project_id
-  region      = var.region
-  zone        = var.zones[0]
+  project = "zcelero-tech-talk"
+  region  = "europe-west1"
+  zone    = "europe-west1-d"
 }
 

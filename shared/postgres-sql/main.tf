@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "zcelero-tech-talk-terraform-state"
+    prefix  = "shared/postgres-sql"
+  }
+}
+
 resource "google_sql_database_instance" "main" {
   name = "zcelero-tech-talk-db"
   database_version = "POSTGRES_9_6"
