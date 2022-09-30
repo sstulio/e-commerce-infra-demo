@@ -6,19 +6,19 @@ terraform {
 }
 
 locals {
-  app_name = "order-service-demo"
+  app_name   = "order-service-demo"
   repository = "https://github.com/sstulio/order-service-demo"
 }
 
 module "argocd_application" {
-  source = "../../modules/argocd-app"
-  app_name = local.app_name
+  source     = "../../modules/argocd-app"
+  app_name   = local.app_name
   repository = local.repository
 }
 
 module "database" {
-  source = "../../modules/database"
-  db_name = "${local.app_name}-db"
+  source    = "../../modules/database"
+  db_name   = "${local.app_name}-db"
   user_name = "${local.app_name}-user"
 }
 

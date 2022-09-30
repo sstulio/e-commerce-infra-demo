@@ -5,7 +5,7 @@ locals {
 resource "kubernetes_manifest" "clusterissuer_letsencrypt_production" {
   manifest = {
     apiVersion = "cert-manager.io/v1"
-    kind = "ClusterIssuer"
+    kind       = "ClusterIssuer"
     metadata = {
       name = "${locals.name}"
     }
