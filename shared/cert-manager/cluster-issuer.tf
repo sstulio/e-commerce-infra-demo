@@ -1,13 +1,31 @@
-data "kubectl_file_documents" "letsencrypt_issuer" {
-  content = file("../manifests/cert-manager/cluster-issuer-production.yaml")
+locals {
+  name = "letsencrypt-production"
 }
 
-resource "kubectl_manifest" "letsencrypt_issuer" {
-  count              = length(data.kubectl_file_documents.letsencrypt_issuer.documents)
-  yaml_body          = element(data.kubectl_file_documents.letsencrypt_issuer.documents, count.index)
-  override_namespace = "cert-manager"
-
-  depends_on = [
-    module.cert_manager,
-  ]
+resource "kubernetes_manifest" "clusterissuer_letsencrypt_production" {
+  manifest = {
+    apiVersion = "cert-manager.io/v1"
+    kind = "ClusterIssuer"
+    metadata = {
+      name = "${locals.name}"
+    }
+    spec = {
+      acme = {
+        email = "tulio@techtalk.tuliodesouza.com"
+        privateKeySecretRef = {
+          name = "${locals.name}"
+        }
+        server = "https://acme-v02.api.letsencrypt.org/directory"
+        solvers = [
+          {
+            http01 = {
+              ingress = {
+                class = "nginx"
+              }
+            }
+          },
+        ]
+      }
+    }
+  }
 }
