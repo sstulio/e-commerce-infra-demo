@@ -1,7 +1,7 @@
 resource "google_storage_bucket" "default" {
-  name          = "${var.project_id}-terraform-state"
+  name          = "zcelero-tech-talk-terraform-state"
   force_destroy = false
-  location      = var.region
+  location      = "europe-west1"
   storage_class = "STANDARD"
   versioning {
     enabled = true
