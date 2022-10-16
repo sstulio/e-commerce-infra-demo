@@ -38,5 +38,9 @@ resource "kubernetes_secret" "secret" {
       sslmode=disable
       EOT
   }
+
+  depends_on = [
+    module.argocd_application
+  ]
 }
 
