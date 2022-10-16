@@ -13,13 +13,13 @@ variable "target_revision" {
   default     = "main"
 }
 
-resource "kubernetes_namespace" "order_service_demo" {
+resource "kubernetes_namespace" "app_namespace" {
   metadata {
     name = var.app_name
   }
 }
 
-resource "kubernetes_manifest" "application_argocd_order_service_demo" {
+resource "kubernetes_manifest" "application_argocd_application" {
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
@@ -50,6 +50,6 @@ resource "kubernetes_manifest" "application_argocd_order_service_demo" {
   }
 
   depends_on = [
-    kubernetes_namespace.order_service_demo
+    kubernetes_namespace.app_namespace
   ]
 }
